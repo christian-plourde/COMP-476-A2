@@ -1,0 +1,8 @@
+/COMP-476-A2/.vs
+/COMP-476-A2/Library
+/COMP-476-A2/Logs
+/COMP-476-A2/obj
+/COMP-476-A2/Packages
+/COMP-476-A2/Temp
+*.csproj
+*.sln
