@@ -169,15 +169,25 @@ namespace Graph
             nodes.AddLast(node);
         }
 
+        protected void resetCosts()
+        {
+            foreach (GraphNode<T> n in nodes)
+                n.CostSoFar = double.MaxValue;
+        }
+
         public virtual LinkedList<GraphNode<T>> ShortestPath(GraphNode<T> start_node, GraphNode<T> end_node)
         {
             this.StartNode = start_node;
+
+            resetCosts();
+            
             start_node.CostSoFar = 0;
             DijkstraEvaluate();
 
             GraphNode<T> curr = end_node;
             LinkedList<GraphNode<T>> node_order = new LinkedList<GraphNode<T>>();
 
+            int i = 0;
             while(curr != start_node)
             {
                 node_order.AddFirst(curr);
@@ -269,6 +279,7 @@ namespace Graph
         public override LinkedList<GraphNode<T>> ShortestPath(GraphNode<T> start_node, GraphNode<T> end_node)
         {
             this.StartNode = start_node;
+            resetCosts();
             start_node.CostSoFar = 0;
 
             foreach(GraphNode<T> n in nodes)

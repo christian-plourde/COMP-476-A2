@@ -25,12 +25,14 @@ public class Character : NPC
 
         graph = FindObjectOfType<GraphManager>().Graph;
         Movement.Target = current_node.Value.transform.position;
+
+        MaxVelocity = 10 * MaxVelocity;
     }
 
     // Update is called once per frame
     protected override void Update()
     {
-        if (Input.GetMouseButton(0))
+        if (Input.GetKey(KeyCode.Mouse0))
         {
             Ray ray = cam.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
