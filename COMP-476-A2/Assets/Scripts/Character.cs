@@ -14,6 +14,11 @@ public class Character : NPC
     private GraphNode<LevelNode>[] path = new GraphNode<LevelNode>[0]; //this is a list containing the nodes in the current chracters path
     private int current_path_node_index = 0; //the step of the path the character s currently executing
 
+    public GraphNode<LevelNode>[] Path
+    {
+        get { return path; }
+    }
+
     // Start is called before the first frame update
     protected override void Start()
     {

@@ -10,7 +10,11 @@ namespace Graph
     public interface IHeuristic<T>
     {
         double ComputeHeuristic(T goal);
+
+        int getClusterID();
     }
+
+    public enum HEURISTIC_TYPE { NULL, EUCLIDEAN, CLUSTER }
 
     //a class representing an edge in the graph
     public class GraphEdge<T>
@@ -129,13 +133,56 @@ namespace Graph
     }
 
     //represents a basic graph that does dijkstra shortest path for pathfinding
-    public class Graph<T>
+    public class Graph<T> where T : IHeuristic<T>
     {
         protected LinkedList<GraphNode<T>> nodes; //a list of all nodes currently in the graph
         private GraphNode<T> start_node; //the start node for the current path finding iteration
         protected LinkedList<GraphNode<T>> open_nodes; //a list of all the currently discovered nodes for the pathfinding iteration
         protected LinkedList<GraphNode<T>> closed_nodes; //a list of processed nodes in the current pathfinding iteration
         protected GraphNode<T> current_node; //the node we are currently processing in the pathfinding iteration
+
+        //data for the showing of fill
+        //----------------------------------------------------
+        protected GraphNode<T> curr_start_node;
+        protected GraphNode<T> curr_end_node;
+        protected LinkedList<GraphNode<T>> examined_nodes;
+        private HEURISTIC_TYPE heuristic_type;
+        ClusterLookupTable<double> cluster_table;
+        public int cluster_count;
+
+        public ClusterLookupTable<double> ClusterTable
+        {
+            get { return cluster_table; }
+        }
+
+        public int ClusterCount
+        {
+            set { cluster_count = value; }
+        }
+
+        public GraphNode<T> CurrentStartNode
+        {
+            get { return curr_start_node; }
+        }
+
+        public GraphNode<T> CurrentEndNode
+        {
+            get { return curr_end_node; }
+        }
+
+        public LinkedList<GraphNode<T>> ExaminedNodes
+        {
+            get { return examined_nodes; }
+        }
+
+        public HEURISTIC_TYPE HeuristicType
+        {
+            get { return heuristic_type; }
+            set { heuristic_type = value; }
+        }
+
+        //end data for the showing of fill
+        //----------------------------------------------------
 
         public LinkedList<GraphNode<T>> Nodes
         {
@@ -153,6 +200,7 @@ namespace Graph
             nodes = new LinkedList<GraphNode<T>>();
             open_nodes = new LinkedList<GraphNode<T>>();
             closed_nodes = new LinkedList<GraphNode<T>>();
+            examined_nodes = new LinkedList<GraphNode<T>>();
         }
         
         //this function is used to get the node from the open list that has the smallest cost so far. It will be processed next when pathfinding
@@ -175,6 +223,39 @@ namespace Graph
             return smallest_cost_node;
         }
 
+        public void InitializeClusterTable()
+        {
+            //method to initialize the cluster lookup table used to get the heuristic value in the case where the heuristic type is set to cluster
+            //in order to do this, we need to dijkstra evaluate once for each node. This will make the nodes in the graph have their cost so far at the end be the cost to run to that node from the current start node.
+
+            cluster_table = new ClusterLookupTable<double>(cluster_count);
+
+            foreach(GraphNode<T> n in nodes)
+            {
+                open_nodes.Clear(); //clear both open and closed lists since they will be repopulated in this pathfinding step
+                closed_nodes.Clear();
+                this.StartNode = n; //start node for pathfinding step
+
+                resetCosts(); //reset all the costs
+
+                start_node.CostSoFar = 0;
+                DijkstraEvaluate();
+
+                //once the evaluation has been done we will update the cluster table accordingly
+                foreach(GraphNode<T> g in nodes)
+                {
+                    //if the nodes are in the same cluster the cluster heuristic is 0
+                    if (n.Value.getClusterID() == g.Value.getClusterID())
+                        cluster_table[n.Value.getClusterID(), g.Value.getClusterID()] = 0;
+
+                    //for each node, compare the costsofar of g with the corresponding entry [cluster id of n][cluster id of g] for the distance from cluster n to cluster g. if it is less than that entry, we update the value
+                    else if (g.CostSoFar < cluster_table[n.Value.getClusterID(), g.Value.getClusterID()])
+                        cluster_table[n.Value.getClusterID(), g.Value.getClusterID()] = g.CostSoFar;
+                }
+            }
+            examined_nodes.Clear();
+        }
+
         public void Add(GraphNode<T> node)
         {
             nodes.AddLast(node);
@@ -189,6 +270,10 @@ namespace Graph
 
         public virtual LinkedList<GraphNode<T>> ShortestPath(GraphNode<T> start_node, GraphNode<T> end_node)
         {
+            examined_nodes.Clear();
+            curr_start_node = start_node;
+            curr_end_node = end_node;
+
             open_nodes.Clear(); //clear both open and closed lists since they will be repopulated in this pathfinding step
             closed_nodes.Clear();
             this.StartNode = start_node; //start node for pathfinding step
@@ -203,7 +288,6 @@ namespace Graph
             GraphNode<T> curr = end_node;
             LinkedList<GraphNode<T>> node_order = new LinkedList<GraphNode<T>>();
 
-            int i = 0;
             while(curr != start_node)
             {
                 node_order.AddFirst(curr);
@@ -220,6 +304,7 @@ namespace Graph
             //we evaluate this from the start node
             current_node = start_node;
             open_nodes.AddLast(current_node); //add the current node to open list since we will process it
+            examined_nodes.AddLast(current_node);
 
             //as long as there are still nodes to process we evaluate all of the current nodes neighbors
             while(open_nodes.Count > 0)
@@ -248,7 +333,11 @@ namespace Graph
 
                 //add the end node to the open list
                 if(!open_nodes.Contains(e.End) && cost_changed)
+                {
                     open_nodes.AddLast(e.End);
+                    examined_nodes.AddLast(e.End);
+                }
+                    
             }
 
             open_nodes.Remove(current_node);
@@ -298,6 +387,10 @@ namespace Graph
         //shortest path using a*
         public override LinkedList<GraphNode<T>> ShortestPath(GraphNode<T> start_node, GraphNode<T> end_node)
         {
+            examined_nodes.Clear();
+            curr_start_node = start_node;
+            curr_end_node = end_node;
+
             open_nodes.Clear(); //clear open and closed and reset all costs (costs so far)
             closed_nodes.Clear();
             this.StartNode = start_node;
@@ -332,6 +425,7 @@ namespace Graph
             //we evaluate this from the start node
             current_node = StartNode;
             open_nodes.AddLast(current_node);
+            examined_nodes.AddLast(current_node);
 
             while (open_nodes.Count > 0 && getSmallestEstimatedCost() != end_node)
             {
@@ -360,7 +454,11 @@ namespace Graph
 
                 //add the end node to the open list
                 if (!open_nodes.Contains(e.End) && cost_changed)
+                {
                     open_nodes.AddLast(e.End);
+                    examined_nodes.AddLast(e.End);
+                }
+                   
             }
 
             open_nodes.Remove(current_node);
