@@ -13,6 +13,7 @@ public class Character : NPC
     public Camera cam;
     private GraphNode<LevelNode>[] path = new GraphNode<LevelNode>[0]; //this is a list containing the nodes in the current chracters path
     private int current_path_node_index = 0; //the step of the path the character s currently executing
+    private GraphNode<LevelNode> currentTarget;
 
     public GraphNode<LevelNode>[] Path
     {
@@ -47,14 +48,17 @@ public class Character : NPC
             {
                 if(hit.transform.gameObject.GetComponent<LevelNode>())
                 {
-                    if(Movement.HasArrived)
+
+                    current_path_node_index = 0;
+                    path = graph.ShortestPath(current_node, hit.transform.gameObject.GetComponent<LevelNode>().GraphNode).ToArray();
+
+                    //check to make sure the node we are going to is in the path. if its not we need to go back to the start to avoid clipping through the graph
+                    if(!path.Contains(currentTarget))
                     {
-                        if (path.Length == 0 || current_path_node_index == path.Length)
-                        {
-                            current_path_node_index = 0;
-                            path = graph.ShortestPath(current_node, hit.transform.gameObject.GetComponent<LevelNode>().GraphNode).ToArray();
-                        }
+                        Movement.Target = current_node.Value.transform.position;
+                        currentTarget = current_node;
                     }
+
                 }
             }
 
@@ -66,6 +70,7 @@ public class Character : NPC
             {
                 current_node = path[current_path_node_index];
                 Movement.Target = path[++current_path_node_index].Value.transform.position;
+                currentTarget = path[current_path_node_index];
             }
         }
 
