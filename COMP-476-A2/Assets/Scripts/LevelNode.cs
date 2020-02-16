@@ -33,7 +33,7 @@ public class LevelNode : MonoBehaviour
         lineRenderers = new List<LineRenderer>(); //instantiate the list of line renderers
         foreach(GameObject o in linked_nodes)
         {
-            GameObject lineDrawer = Instantiate(lineRendererPrefab) as GameObject;
+            GameObject lineDrawer = Instantiate(lineRendererPrefab) as GameObject; //this is required to draw the path lines
             lineRenderers.Add(lineDrawer.GetComponent<LineRenderer>()); //for each of the conenctions the node has, we create a new line renderer to draw the connection path
         }
 
@@ -47,7 +47,7 @@ public class LevelNode : MonoBehaviour
 
         foreach(GameObject o in linked_nodes)
         {
-            lineRenderers[i].SetPosition(0, this.transform.position);
+            lineRenderers[i].SetPosition(0, this.transform.position); //draw a line from the start to the end of the connection
             lineRenderers[i].SetPosition(1, o.transform.position);
             i++;
         }

@@ -4,14 +4,15 @@ using UnityEngine;
 using Graph;
 using System.Linq;
 
+//a class used for an npc character
 public class Character : NPC
 {
-    public GameObject startNode;
-    private GraphNode<LevelNode> current_node;
-    private Graph<LevelNode> graph;
+    public GameObject startNode; //the node that the chracter should start at
+    private GraphNode<LevelNode> current_node; //the node that the chracter is currently at in the graph
+    private Graph<LevelNode> graph; //a reference to the graph that is used for setting the movement path for the chracter
     public Camera cam;
-    private GraphNode<LevelNode>[] path = new GraphNode<LevelNode>[0];
-    private int current_path_node_index = 0;
+    private GraphNode<LevelNode>[] path = new GraphNode<LevelNode>[0]; //this is a list containing the nodes in the current chracters path
+    private int current_path_node_index = 0; //the step of the path the character s currently executing
 
     // Start is called before the first frame update
     protected override void Start()

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//basic npc class
 public class NPC : MonoBehaviour
 {
     float MAX_VELOCITY = 0.6f;
@@ -9,7 +10,7 @@ public class NPC : MonoBehaviour
     float MAX_ANGULAR_VELOCITY = 40.0f;
     float currentAngularVelocity = 0.0f;
     float MAX_ANGULAR_ACCELERATION = 50.0f;
-    AlignedMovement movement;
+    AlignedMovement movement; //the current movement type for the character
 
     public float MaxVelocity
     {
@@ -60,6 +61,7 @@ public class NPC : MonoBehaviour
     // Update is called once per frame
     protected virtual void Update()
     {
+        //move is called as long as the destination is not reached
         if (!Movement.HasArrived)
             Movement.Move();
 

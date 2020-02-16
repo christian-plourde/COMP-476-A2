@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Graph;
 
+//responsible for creating and maintaining the graph structure
 public class GraphManager : MonoBehaviour
 {
     private Graph<LevelNode> graph;
@@ -20,7 +21,7 @@ public class GraphManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        LevelNode[] nodes = FindObjectsOfType<LevelNode>();
+        LevelNode[] nodes = FindObjectsOfType<LevelNode>(); //find all the level nodes in the scene and add them to the graph
         foreach(LevelNode n in nodes)
         {
             graph.Add(n.GraphNode);

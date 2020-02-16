@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//base class for movement
 public abstract class Movement
 {
-    private NPC character;
-    private bool has_arrived = false;
-    private Vector3 target;
+    private NPC character; //the npc character reference. We need this for its current position, speeds, etc.
+    private bool has_arrived = false; //indicates if the character has arrived at his target or not
+    private Vector3 target; //a vector 3 representing the target of the chracter's movement
 
     public bool HasArrived
     {
@@ -15,7 +16,7 @@ public abstract class Movement
 
     public float DistanceToTarget
     {
-        get { return (Target - Position).magnitude; }
+        get { return (Target - Position).magnitude; } //how far away we are from the target
     }
 
     public Vector3 Target
@@ -56,9 +57,10 @@ public abstract class Movement
     public abstract void Move();
 }
 
+//movement type that first aligns to direction of motion then moves
 public abstract class AlignedMovement : Movement
 {
-    protected const float time_to_target = 1.0f;
+    protected const float time_to_target = 1.0f; 
     protected const float radius_of_satisfaction = 0.02f;
     protected const float angular_radius_of_satisfaction = 5.0f;
     protected const float angular_slow_down_radius = 10.0f;
