@@ -26,7 +26,7 @@ public class Character : NPC
         graph = FindObjectOfType<GraphManager>().Graph;
         Movement.Target = current_node.Value.transform.position;
 
-        MaxVelocity = 10 * MaxVelocity;
+        MaxVelocity = 100 * MaxVelocity;
     }
 
     // Update is called once per frame
