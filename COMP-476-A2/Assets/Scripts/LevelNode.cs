@@ -93,10 +93,13 @@ public class LevelNode : MonoBehaviour, IHeuristic<LevelNode>
 
         foreach(GameObject o in linked_nodes)
         {
-            if (character.GetComponent<Character>().Path.Contains<GraphNode<LevelNode>>(o.GetComponent<LevelNode>().GraphNode))
+            if (character.GetComponent<Character>().Path.Contains<GraphNode<LevelNode>>(o.GetComponent<LevelNode>().GraphNode) && character.GetComponent<Character>().Path.Contains<GraphNode<LevelNode>>(GraphNode))
+            {
                 lineRenderers[i].material = path_edge_mat;
+            }
+                
 
-            else if (graph.ExaminedNodes.Contains(o.GetComponent<LevelNode>().GraphNode))
+            else if (graph.ExaminedNodes.Contains(GraphNode) && graph.ExaminedNodes.Contains(o.GetComponent<LevelNode>().GraphNode))
                 lineRenderers[i].material = examined_node_mat;
 
             else
