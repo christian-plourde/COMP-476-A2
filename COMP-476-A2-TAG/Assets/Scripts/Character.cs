@@ -14,10 +14,64 @@ public class Character : NPC
     private GraphNode<LevelNode>[] path = new GraphNode<LevelNode>[0]; //this is a list containing the nodes in the current chracters path
     private int current_path_node_index = 0; //the step of the path the character s currently executing
     private GraphNode<LevelNode> currentTarget;
+    private bool is_tag = false;
+    private DecisionTree decisionTree; //dictates the behaviour when the character is not the tag
+    private TagManager tag_manager;
+    private float line_of_sight_y_offset = 0.3f;
 
     public GraphNode<LevelNode>[] Path
     {
         get { return path; }
+    }
+
+    public bool IsIt
+    {
+        get { return is_tag; }
+        set { is_tag = value;
+
+            if (IsIt)
+                this.gameObject.transform.localScale = new Vector3(10, 20, 10);
+
+            else
+                this.gameObject.transform.localScale = new Vector3(10, 10, 10);
+        
+        }
+    }
+
+    public TagManager Manager
+    {
+        get { return tag_manager; }
+        set { tag_manager = value; }
+    }
+
+    //this will return true if the it player is visible from this characters position and false otherwise.
+    private bool ItPlayerVisible()
+    {
+        Ray ray = new Ray(new Vector3(Position.x, Position.y + line_of_sight_y_offset, Position.z), this.transform.forward);
+        //Debug.DrawRay(new Vector3(Position.x, Position.y + line_of_sight_y_offset, Position.z), this.transform.forward * 1.5f, Color.red);
+        RaycastHit hit;
+
+        if(Physics.Raycast(ray, out hit))
+        {
+            if(hit.transform.gameObject.GetComponent<Character>())
+            {
+                if (hit.transform.gameObject.GetComponent<Character>() == Manager.ItPlayer)
+                {
+                    //Debug.Log(this.gameObject + " saw " + hit.transform.gameObject);
+                    return true;
+                }
+                    
+            }
+        }
+
+        return false;
+    }
+
+    private void SetDecisionTree()
+    {
+        //we need to create a decision tree for the behaviour of the non-tag npc's
+        //first the check node to see if the it player is visible
+        CheckNode it_player_visible = new CheckNode(ItPlayerVisible);
     }
 
     // Start is called before the first frame update
@@ -75,7 +129,6 @@ public class Character : NPC
 
         catch
         { }
-        
 
         base.Update();
     }
