@@ -4,5 +4,11 @@
 /COMP-476-A2/obj
 /COMP-476-A2/Packages
 /COMP-476-A2/Temp
+/COMP-476-A2-TAG/.vs
+/COMP-476-A2-TAG/Library
+/COMP-476-A2-TAG/Logs
+/COMP-476-A2-TAG/obj
+/COMP-476-A2-TAG/Packages
+/COMP-476-A2-TAG/Temp
 *.csproj
 *.sln
