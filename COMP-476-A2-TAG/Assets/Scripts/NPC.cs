@@ -10,6 +10,8 @@ public class NPC : MonoBehaviour
     float MAX_ANGULAR_VELOCITY = 40.0f;
     float currentAngularVelocity = 0.0f;
     float MAX_ANGULAR_ACCELERATION = 50.0f;
+    float MAX_ACCELERATION = 1.0f;
+    Vector3 steering_velocity;
     AlignedMovement movement; //the current movement type for the character
 
     public float MaxVelocity
@@ -28,10 +30,21 @@ public class NPC : MonoBehaviour
         get { return MAX_ANGULAR_ACCELERATION; }
     }
 
+    public float MaxAcceleration
+    {
+        get { return MAX_ACCELERATION; }
+    }
+
     public float Velocity
     {
         get { return currentVelocity; }
         set { currentVelocity = value; }
+    }
+
+    public Vector3 SteeringVelocity
+    {
+        get { return steering_velocity; }
+        set { steering_velocity = value; }
     }
 
     public float AngularVelocity
@@ -55,7 +68,7 @@ public class NPC : MonoBehaviour
     // Start is called before the first frame update
     protected virtual void Start()
     {
-        Movement = new KinematicArrive(this);
+        Movement = new SteeringArrive(this);
     }
 
     // Update is called once per frame

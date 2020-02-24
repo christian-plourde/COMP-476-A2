@@ -43,10 +43,21 @@ public abstract class Movement
         get { return character.MaxVelocity; }
     }
 
+    public float MaxAcceleration
+    {
+        get { return character.MaxAcceleration; }
+    }
+
     public float Velocity
     {
         get { return character.Velocity; }
         set { character.Velocity = value; }
+    }
+
+    public Vector3 SteeringVelocity
+    {
+        get { return character.SteeringVelocity; }
+        set { character.SteeringVelocity = value; }
     }
 
     public Movement(NPC npc)
@@ -325,6 +336,107 @@ public class KinematicArrive : ReachMovement
         //if we are outside the radius of satisfaction, we need to move with the prescribed velocity
         Vector3 v_move = velocity * velocity_dir;
         Position = Position + v_move * Time.deltaTime;
+    }
+
+    public override void resetTarget()
+    {
+
+    }
+}
+
+public class SteeringSeek : ReachMovement
+{
+    public SteeringSeek(NPC npc) : base(npc) { }
+
+    protected override void move()
+    {
+        //------------------------------ ACCELERATION DIRECTION --------------------------------//
+
+        //the direction of the acceleration is computed by taking the difference between the position of the target and the character
+        Vector3 acceleration_dir = Target - Position;
+        //Now that we have the direction we need to normalize it
+        acceleration_dir = acceleration_dir.normalized;
+
+        //then we should multiply by the maximum acceleration to get our current acceleration
+        Vector3 curr_acc = acceleration_dir * MaxAcceleration;
+
+        //-------------------------------- SEEK VELOCITY ---------------------------------//
+
+        //Now that the velocity direction has been computed we need to calculate the seek velocity
+        SteeringVelocity = SteeringVelocity + curr_acc*Time.deltaTime;
+
+        //we need to check to make sure that the seek velocity is capped at the max velocity of the character
+        if(SteeringVelocity.magnitude > MaxVelocity)
+        {
+
+            SteeringVelocity = SteeringVelocity.normalized;
+
+            SteeringVelocity *= MaxVelocity;
+        }
+
+        //------------------------------- POSITION UPDATE -------------------------------//
+
+        //the final step is to use the seek velocity to update the position of the car
+        Position = Position + SteeringVelocity * Time.deltaTime;
+    }
+
+    public override void resetTarget()
+    {
+
+    }
+}
+
+public class SteeringArrive : ReachMovement
+{
+    private float slowdown_radius = 2.0f;
+    private float arrival_radius = 0.4f;
+    private float t2t = 2.0f; 
+
+    public SteeringArrive(NPC npc) : base(npc) { }
+
+    protected override void move()
+    {
+        //------------------------------ ACCELERATION DIRECTION --------------------------------//
+
+        //the direction of the acceleration is computed by taking the difference between the position of the target and the character
+        Vector3 acceleration_dir = Target - Position;
+        //Now that we have the direction we need to normalize it
+        acceleration_dir = acceleration_dir.normalized;
+
+        //then we should multiply by the maximum acceleration to get our current acceleration
+        Vector3 curr_acc = acceleration_dir * MaxAcceleration;
+
+        //-------------------------------- VELOCITY ---------------------------------//
+
+        if ((Target - Position).magnitude < slowdown_radius)
+        {
+            float goal_velocity = (Target - Position).magnitude / slowdown_radius * MaxVelocity;
+            curr_acc = acceleration_dir * (goal_velocity - SteeringVelocity.magnitude) / t2t;
+        }
+
+        //Now that the velocity direction has been computed we need to calculate the seek velocity
+        SteeringVelocity = SteeringVelocity + curr_acc * Time.deltaTime;
+
+        //we need to check to make sure that the seek velocity is capped at the max velocity of the character
+        if (SteeringVelocity.magnitude > MaxVelocity)
+        {
+
+            SteeringVelocity = SteeringVelocity.normalized;
+
+            SteeringVelocity *= MaxVelocity;
+        }
+
+        //------------------------------- POSITION UPDATE -------------------------------//
+
+        //the final step is to use the seek velocity to update the position of the car
+        Position = Position + SteeringVelocity * Time.deltaTime;
+
+        if((Target - Position).magnitude < arrival_radius)
+        {
+            SteeringVelocity = new Vector3(0, 0, 0);
+            Position = Target;
+            HasArrived = true;
+        }
     }
 
     public override void resetTarget()

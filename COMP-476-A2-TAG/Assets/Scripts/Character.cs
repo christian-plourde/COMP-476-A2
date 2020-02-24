@@ -48,7 +48,6 @@ public class Character : NPC
             {
                 if(hit.transform.gameObject.GetComponent<LevelNode>())
                 {
-
                     current_path_node_index = 0;
                     path = graph.ShortestPath(current_node, hit.transform.gameObject.GetComponent<LevelNode>().GraphNode).ToArray();
 

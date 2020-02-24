@@ -119,7 +119,7 @@ NavMeshSettings:
     accuratePlacement: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: 3cce2007fa1b4df4f82fb5b4a1f0eaf8, type: 2}
 --- !u!1 &13551641
 GameObject:
   m_ObjectHideFlags: 0
@@ -317,7 +317,6 @@ MonoBehaviour:
   path_edge_mat: {fileID: 2100000, guid: 970b15e5a5db6d944bea99dbfd6bc790, type: 2}
   character: {fileID: 1726705023}
   cluster_id: 1
-  render_lines: 0
 --- !u!136 &34241152
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -449,7 +448,6 @@ MonoBehaviour:
   path_edge_mat: {fileID: 2100000, guid: 970b15e5a5db6d944bea99dbfd6bc790, type: 2}
   character: {fileID: 1726705023}
   cluster_id: 4
-  render_lines: 0
 --- !u!136 &42901142
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -646,7 +644,6 @@ MonoBehaviour:
   path_edge_mat: {fileID: 2100000, guid: 970b15e5a5db6d944bea99dbfd6bc790, type: 2}
   character: {fileID: 1726705023}
   cluster_id: 3
-  render_lines: 0
 --- !u!136 &59048242
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -767,7 +764,6 @@ MonoBehaviour:
   path_edge_mat: {fileID: 2100000, guid: 970b15e5a5db6d944bea99dbfd6bc790, type: 2}
   character: {fileID: 1726705023}
   cluster_id: 0
-  render_lines: 0
 --- !u!136 &68849384
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -991,7 +987,6 @@ MonoBehaviour:
   path_edge_mat: {fileID: 2100000, guid: 970b15e5a5db6d944bea99dbfd6bc790, type: 2}
   character: {fileID: 1726705023}
   cluster_id: 2
-  render_lines: 0
 --- !u!136 &78836127
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1203,7 +1198,6 @@ MonoBehaviour:
   path_edge_mat: {fileID: 2100000, guid: 970b15e5a5db6d944bea99dbfd6bc790, type: 2}
   character: {fileID: 1726705023}
   cluster_id: 2
-  render_lines: 0
 --- !u!136 &93983741
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1413,7 +1407,6 @@ MonoBehaviour:
   path_edge_mat: {fileID: 2100000, guid: 970b15e5a5db6d944bea99dbfd6bc790, type: 2}
   character: {fileID: 1726705023}
   cluster_id: 3
-  render_lines: 0
 --- !u!136 &150549759
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1519,7 +1512,6 @@ MonoBehaviour:
   path_edge_mat: {fileID: 2100000, guid: 970b15e5a5db6d944bea99dbfd6bc790, type: 2}
   character: {fileID: 1726705023}
   cluster_id: 5
-  render_lines: 0
 --- !u!136 &160207851
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1638,7 +1630,6 @@ MonoBehaviour:
   path_edge_mat: {fileID: 2100000, guid: 970b15e5a5db6d944bea99dbfd6bc790, type: 2}
   character: {fileID: 1726705023}
   cluster_id: 0
-  render_lines: 0
 --- !u!136 &162645884
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2019,7 +2010,6 @@ MonoBehaviour:
   path_edge_mat: {fileID: 2100000, guid: 970b15e5a5db6d944bea99dbfd6bc790, type: 2}
   character: {fileID: 1726705023}
   cluster_id: 0
-  render_lines: 0
 --- !u!136 &236126676
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2138,7 +2128,6 @@ MonoBehaviour:
   path_edge_mat: {fileID: 2100000, guid: 970b15e5a5db6d944bea99dbfd6bc790, type: 2}
   character: {fileID: 1726705023}
   cluster_id: 5
-  render_lines: 0
 --- !u!136 &282715962
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2349,7 +2338,6 @@ MonoBehaviour:
   path_edge_mat: {fileID: 2100000, guid: 970b15e5a5db6d944bea99dbfd6bc790, type: 2}
   character: {fileID: 1726705023}
   cluster_id: 2
-  render_lines: 0
 --- !u!136 &312117342
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2561,7 +2549,6 @@ MonoBehaviour:
   path_edge_mat: {fileID: 2100000, guid: 970b15e5a5db6d944bea99dbfd6bc790, type: 2}
   character: {fileID: 1726705023}
   cluster_id: 2
-  render_lines: 0
 --- !u!136 &395209888
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2852,7 +2839,6 @@ MonoBehaviour:
   path_edge_mat: {fileID: 2100000, guid: 970b15e5a5db6d944bea99dbfd6bc790, type: 2}
   character: {fileID: 1726705023}
   cluster_id: 5
-  render_lines: 0
 --- !u!136 &427340350
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -3065,7 +3051,6 @@ MonoBehaviour:
   path_edge_mat: {fileID: 2100000, guid: 970b15e5a5db6d944bea99dbfd6bc790, type: 2}
   character: {fileID: 1726705023}
   cluster_id: 5
-  render_lines: 0
 --- !u!136 &445148907
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -3198,7 +3183,6 @@ MonoBehaviour:
   path_edge_mat: {fileID: 2100000, guid: 970b15e5a5db6d944bea99dbfd6bc790, type: 2}
   character: {fileID: 1726705023}
   cluster_id: 0
-  render_lines: 0
 --- !u!136 &471168768
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -3302,7 +3286,6 @@ MonoBehaviour:
   path_edge_mat: {fileID: 2100000, guid: 970b15e5a5db6d944bea99dbfd6bc790, type: 2}
   character: {fileID: 1726705023}
   cluster_id: 2
-  render_lines: 0
 --- !u!136 &495843444
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -3494,7 +3477,6 @@ MonoBehaviour:
   path_edge_mat: {fileID: 2100000, guid: 970b15e5a5db6d944bea99dbfd6bc790, type: 2}
   character: {fileID: 1726705023}
   cluster_id: 4
-  render_lines: 0
 --- !u!136 &545297882
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -3707,7 +3689,6 @@ MonoBehaviour:
   path_edge_mat: {fileID: 2100000, guid: 970b15e5a5db6d944bea99dbfd6bc790, type: 2}
   character: {fileID: 1726705023}
   cluster_id: 2
-  render_lines: 0
 --- !u!136 &552647488
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -4010,7 +3991,6 @@ MonoBehaviour:
   path_edge_mat: {fileID: 2100000, guid: 970b15e5a5db6d944bea99dbfd6bc790, type: 2}
   character: {fileID: 1726705023}
   cluster_id: 2
-  render_lines: 0
 --- !u!136 &657724147
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -4209,7 +4189,6 @@ MonoBehaviour:
   path_edge_mat: {fileID: 2100000, guid: 970b15e5a5db6d944bea99dbfd6bc790, type: 2}
   character: {fileID: 1726705023}
   cluster_id: 5
-  render_lines: 0
 --- !u!136 &691195808
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -4618,7 +4597,6 @@ MonoBehaviour:
   path_edge_mat: {fileID: 2100000, guid: 970b15e5a5db6d944bea99dbfd6bc790, type: 2}
   character: {fileID: 1726705023}
   cluster_id: 4
-  render_lines: 0
 --- !u!136 &754812871
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -4818,7 +4796,6 @@ MonoBehaviour:
   path_edge_mat: {fileID: 2100000, guid: 970b15e5a5db6d944bea99dbfd6bc790, type: 2}
   character: {fileID: 1726705023}
   cluster_id: 0
-  render_lines: 0
 --- !u!136 &876792916
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -4937,7 +4914,6 @@ MonoBehaviour:
   path_edge_mat: {fileID: 2100000, guid: 970b15e5a5db6d944bea99dbfd6bc790, type: 2}
   character: {fileID: 1726705023}
   cluster_id: 5
-  render_lines: 0
 --- !u!136 &906459955
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -5139,7 +5115,6 @@ MonoBehaviour:
   path_edge_mat: {fileID: 2100000, guid: 970b15e5a5db6d944bea99dbfd6bc790, type: 2}
   character: {fileID: 1726705023}
   cluster_id: 1
-  render_lines: 0
 --- !u!136 &990885869
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -5320,7 +5295,6 @@ MonoBehaviour:
   path_edge_mat: {fileID: 2100000, guid: 970b15e5a5db6d944bea99dbfd6bc790, type: 2}
   character: {fileID: 1726705023}
   cluster_id: 3
-  render_lines: 0
 --- !u!136 &1014179954
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -5454,7 +5428,6 @@ MonoBehaviour:
   path_edge_mat: {fileID: 2100000, guid: 970b15e5a5db6d944bea99dbfd6bc790, type: 2}
   character: {fileID: 1726705023}
   cluster_id: 5
-  render_lines: 0
 --- !u!136 &1021609233
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -6249,7 +6222,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67f1d31299e0586499089015a3439a00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  heuristic_type: 1
+  heuristic_type: 2
   heuristic_label: {fileID: 1574861912}
   cluster_count: 6
 --- !u!4 &1161147496
@@ -6310,7 +6283,6 @@ MonoBehaviour:
   path_edge_mat: {fileID: 2100000, guid: 970b15e5a5db6d944bea99dbfd6bc790, type: 2}
   character: {fileID: 1726705023}
   cluster_id: 0
-  render_lines: 0
 --- !u!136 &1188656062
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -6594,7 +6566,6 @@ MonoBehaviour:
   path_edge_mat: {fileID: 2100000, guid: 970b15e5a5db6d944bea99dbfd6bc790, type: 2}
   character: {fileID: 1726705023}
   cluster_id: 3
-  render_lines: 0
 --- !u!136 &1284786944
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -6807,7 +6778,6 @@ MonoBehaviour:
   path_edge_mat: {fileID: 2100000, guid: 970b15e5a5db6d944bea99dbfd6bc790, type: 2}
   character: {fileID: 1726705023}
   cluster_id: 0
-  render_lines: 0
 --- !u!136 &1334896893
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -7184,7 +7154,6 @@ MonoBehaviour:
   path_edge_mat: {fileID: 2100000, guid: 970b15e5a5db6d944bea99dbfd6bc790, type: 2}
   character: {fileID: 1726705023}
   cluster_id: 1
-  render_lines: 0
 --- !u!136 &1374722109
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -7318,7 +7287,6 @@ MonoBehaviour:
   path_edge_mat: {fileID: 2100000, guid: 970b15e5a5db6d944bea99dbfd6bc790, type: 2}
   character: {fileID: 1726705023}
   cluster_id: 1
-  render_lines: 0
 --- !u!136 &1395219629
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -7535,7 +7503,6 @@ MonoBehaviour:
   path_edge_mat: {fileID: 2100000, guid: 970b15e5a5db6d944bea99dbfd6bc790, type: 2}
   character: {fileID: 1726705023}
   cluster_id: 2
-  render_lines: 0
 --- !u!136 &1429465384
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -7916,7 +7883,6 @@ MonoBehaviour:
   path_edge_mat: {fileID: 2100000, guid: 970b15e5a5db6d944bea99dbfd6bc790, type: 2}
   character: {fileID: 1726705023}
   cluster_id: 5
-  render_lines: 0
 --- !u!136 &1550761673
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -8112,7 +8078,6 @@ MonoBehaviour:
   path_edge_mat: {fileID: 2100000, guid: 970b15e5a5db6d944bea99dbfd6bc790, type: 2}
   character: {fileID: 1726705023}
   cluster_id: 5
-  render_lines: 0
 --- !u!136 &1591724143
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -8582,7 +8547,6 @@ MonoBehaviour:
   path_edge_mat: {fileID: 2100000, guid: 970b15e5a5db6d944bea99dbfd6bc790, type: 2}
   character: {fileID: 1726705023}
   cluster_id: 2
-  render_lines: 0
 --- !u!136 &1707471331
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -8815,7 +8779,6 @@ MonoBehaviour:
   path_edge_mat: {fileID: 2100000, guid: 970b15e5a5db6d944bea99dbfd6bc790, type: 2}
   character: {fileID: 1726705023}
   cluster_id: 4
-  render_lines: 0
 --- !u!136 &1843913461
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -8936,7 +8899,6 @@ MonoBehaviour:
   path_edge_mat: {fileID: 2100000, guid: 970b15e5a5db6d944bea99dbfd6bc790, type: 2}
   character: {fileID: 1726705023}
   cluster_id: 0
-  render_lines: 0
 --- !u!136 &1851884634
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -9055,7 +9017,6 @@ MonoBehaviour:
   path_edge_mat: {fileID: 2100000, guid: 970b15e5a5db6d944bea99dbfd6bc790, type: 2}
   character: {fileID: 1726705023}
   cluster_id: 0
-  render_lines: 0
 --- !u!136 &1883575056
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -9280,7 +9241,6 @@ MonoBehaviour:
   path_edge_mat: {fileID: 2100000, guid: 970b15e5a5db6d944bea99dbfd6bc790, type: 2}
   character: {fileID: 1726705023}
   cluster_id: 4
-  render_lines: 0
 --- !u!136 &1894448171
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -9384,7 +9344,6 @@ MonoBehaviour:
   path_edge_mat: {fileID: 2100000, guid: 970b15e5a5db6d944bea99dbfd6bc790, type: 2}
   character: {fileID: 1726705023}
   cluster_id: 0
-  render_lines: 0
 --- !u!136 &1904138652
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -9536,7 +9495,6 @@ MonoBehaviour:
   path_edge_mat: {fileID: 2100000, guid: 970b15e5a5db6d944bea99dbfd6bc790, type: 2}
   character: {fileID: 1726705023}
   cluster_id: 3
-  render_lines: 0
 --- !u!136 &1953626547
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -9671,7 +9629,6 @@ MonoBehaviour:
   path_edge_mat: {fileID: 2100000, guid: 970b15e5a5db6d944bea99dbfd6bc790, type: 2}
   character: {fileID: 1726705023}
   cluster_id: 1
-  render_lines: 0
 --- !u!136 &1956318751
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -9777,7 +9734,6 @@ MonoBehaviour:
   path_edge_mat: {fileID: 2100000, guid: 970b15e5a5db6d944bea99dbfd6bc790, type: 2}
   character: {fileID: 1726705023}
   cluster_id: 0
-  render_lines: 0
 --- !u!136 &1973145372
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -9911,7 +9867,6 @@ MonoBehaviour:
   path_edge_mat: {fileID: 2100000, guid: 970b15e5a5db6d944bea99dbfd6bc790, type: 2}
   character: {fileID: 1726705023}
   cluster_id: 4
-  render_lines: 0
 --- !u!136 &2032828919
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -10110,7 +10065,6 @@ MonoBehaviour:
   path_edge_mat: {fileID: 2100000, guid: 970b15e5a5db6d944bea99dbfd6bc790, type: 2}
   character: {fileID: 1726705023}
   cluster_id: 1
-  render_lines: 0
 --- !u!136 &2115556354
 CapsuleCollider:
   m_ObjectHideFlags: 0
