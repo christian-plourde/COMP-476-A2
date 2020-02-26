@@ -6,6 +6,12 @@ public class TagManager : MonoBehaviour
 {
     List<Character> characters;
     Character current_it_player;
+    Character last_char_to_spot_it_player; //the last person to spot the it player
+
+    public Character LastSpotter
+    {
+        get { return last_char_to_spot_it_player; }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -28,6 +34,23 @@ public class TagManager : MonoBehaviour
     public Character ItPlayer
     {
         get { return current_it_player; }
+    }
+
+    //indicates if any of the characters have spotted the it player
+    public bool ItPlayerSpotted()
+    {
+        foreach(Character c in characters)
+        {
+            if (c.ItPlayerVisible())
+            {
+                //if this character can see the it player we record this as the last character to have seen the it player
+                last_char_to_spot_it_player = c;
+                return true;
+            }
+                
+        }
+
+        return false;
     }
 
     // Update is called once per frame

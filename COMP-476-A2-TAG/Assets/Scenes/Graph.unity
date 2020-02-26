@@ -6518,6 +6518,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startNode: {fileID: 93983738}
   cam: {fileID: 963194227}
+  name: Johnny
 --- !u!1 &1266813061
 GameObject:
   m_ObjectHideFlags: 0
@@ -8992,6 +8993,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startNode: {fileID: 1550761671}
   cam: {fileID: 963194227}
+  name: Fred
 --- !u!1 &1843913459
 GameObject:
   m_ObjectHideFlags: 0
@@ -10101,6 +10103,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startNode: {fileID: 754812868}
   cam: {fileID: 963194227}
+  name: Bill
 --- !u!1 &2032828916
 GameObject:
   m_ObjectHideFlags: 0

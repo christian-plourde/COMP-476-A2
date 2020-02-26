@@ -93,6 +93,27 @@ namespace Graph
             get { return edges; }
         }
 
+        public List<GraphNode<T>> Neighbors
+        {
+            get {
+
+                List<GraphNode<T>> neighbors = new List<GraphNode<T>>();
+                foreach(GraphEdge<T> e in edges)
+                {
+                    neighbors.Add(e.End);
+                }
+
+                return neighbors;
+            
+            }
+        }
+
+        public GraphNode<T> RandomNeighbor()
+        {
+            int idx = UnityEngine.Random.Range(0, edges.Count);
+            return Neighbors[idx];
+        }
+
         public void AddNeighbor(GraphNode<T> n, double cost)
         {
             this.edges.AddLast(new GraphEdge<T>(this, n, cost));
@@ -149,6 +170,13 @@ namespace Graph
         private HEURISTIC_TYPE heuristic_type;
         ClusterLookupTable<double> cluster_table;
         public int cluster_count;
+
+        public GraphNode<T> RandomNode()
+        {
+            int idx = UnityEngine.Random.Range(0, nodes.Count);
+
+            return nodes.ToArray<GraphNode<T>>()[idx];
+        }
 
         public ClusterLookupTable<double> ClusterTable
         {

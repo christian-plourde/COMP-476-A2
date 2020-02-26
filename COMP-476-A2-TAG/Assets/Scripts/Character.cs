@@ -4,6 +4,8 @@ using UnityEngine;
 using Graph;
 using System.Linq;
 
+public enum BEHAVIOUR_TYPE { WANDER, MOVE_TO_LAST_SPOTTER, FLANK, TAGGING }
+
 //a class used for an npc character
 public class Character : NPC
 {
@@ -18,6 +20,9 @@ public class Character : NPC
     private DecisionTree decisionTree; //dictates the behaviour when the character is not the tag
     private TagManager tag_manager;
     private float line_of_sight_y_offset = 0.3f;
+    private BEHAVIOUR_TYPE behaviour;
+    private float tag_radius = 0.2f; //radius within which we can tag the it player
+    public string name;
 
     public GraphNode<LevelNode>[] Path
     {
@@ -45,7 +50,7 @@ public class Character : NPC
     }
 
     //this will return true if the it player is visible from this characters position and false otherwise.
-    private bool ItPlayerVisible()
+    public bool ItPlayerVisible()
     {
         Ray ray = new Ray(new Vector3(Position.x, Position.y + line_of_sight_y_offset, Position.z), this.transform.forward);
         //Debug.DrawRay(new Vector3(Position.x, Position.y + line_of_sight_y_offset, Position.z), this.transform.forward * 1.5f, Color.red);
@@ -67,11 +72,78 @@ public class Character : NPC
         return false;
     }
 
+    //tells us if the it player is in the proximity of our character
+    public bool ItPlayerInProximity()
+    {
+        if(!IsIt && (Manager.ItPlayer.Position - Position).magnitude < tag_radius)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    private void SetWander()
+    {
+        behaviour = BEHAVIOUR_TYPE.WANDER;
+    }
+
+    private void SetMoveToLastSpotter()
+    {
+        behaviour = BEHAVIOUR_TYPE.MOVE_TO_LAST_SPOTTER;
+    }
+
+    private void SetFlank()
+    {
+        behaviour = BEHAVIOUR_TYPE.FLANK;
+    }
+
+    private void SetTagging()
+    {
+        behaviour = BEHAVIOUR_TYPE.TAGGING;
+    }
+    
+    private bool ItPlayerStillVisible()
+    {
+        return Manager.LastSpotter.ItPlayerVisible();
+    }
+
     private void SetDecisionTree()
     {
         //we need to create a decision tree for the behaviour of the non-tag npc's
-        //first the check node to see if the it player is visible
+        //first the check node to see if the it player is visible by us
         CheckNode it_player_visible = new CheckNode(ItPlayerVisible);
+
+        //------------------- LEFT SUBTREE --------------------//
+        //next a node to tell us if someone else can see the it player
+        CheckNode it_player_spotted = new CheckNode(Manager.ItPlayerSpotted);
+        //next a node to tell us if the last person to see the it player can still see him
+        CheckNode it_player_still_visible = new CheckNode(ItPlayerStillVisible);
+
+        //now the action nodes
+        ActionNode Wander = new ActionNode(SetWander);
+        ActionNode MoveToLastSpotter = new ActionNode(SetMoveToLastSpotter);
+        ActionNode Flank = new ActionNode(SetFlank);
+
+        //------------------- RIGHT SUBTREE ------------------//
+        CheckNode close_enough_to_tag = new CheckNode(ItPlayerInProximity);
+        ActionNode ItPlayerNotClose = new ActionNode(() => { }); //we do nothing in this case
+        ActionNode ItPlayerClose = new ActionNode(SetTagging);
+
+        //now setting the relationships
+        it_player_visible.False = it_player_spotted;
+        it_player_visible.True = close_enough_to_tag;
+
+        it_player_spotted.False = Wander;
+        it_player_spotted.True = it_player_still_visible;
+
+        it_player_still_visible.False = MoveToLastSpotter;
+        it_player_still_visible.True = Flank;
+
+        close_enough_to_tag.False = ItPlayerNotClose;
+        close_enough_to_tag.True = ItPlayerClose;
+
+        decisionTree = new DecisionTree(it_player_visible);
     }
 
     // Start is called before the first frame update
@@ -88,35 +160,11 @@ public class Character : NPC
         Movement.Target = current_node.Value.transform.position;
 
         MaxVelocity = 100 * MaxVelocity;
+        SetDecisionTree();
     }
 
-    // Update is called once per frame
-    protected override void Update()
+    private void MoveToLastSpotterUpdate()
     {
-        if (Input.GetKey(KeyCode.Mouse0))
-        {
-            Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-
-            if (Physics.Raycast(ray, out hit))
-            {
-                if(hit.transform.gameObject.GetComponent<LevelNode>())
-                {
-                    current_path_node_index = 0;
-                    path = graph.ShortestPath(current_node, hit.transform.gameObject.GetComponent<LevelNode>().GraphNode).ToArray();
-
-                    //check to make sure the node we are going to is in the path. if its not we need to go back to the start to avoid clipping through the graph
-                    if(!path.Contains(currentTarget))
-                    {
-                        Movement.Target = current_node.Value.transform.position;
-                        currentTarget = current_node;
-                    }
-
-                }
-            }
-
-        }
-
         try
         {
             if (Movement.HasArrived)
@@ -128,8 +176,106 @@ public class Character : NPC
         }
 
         catch
-        { }
+        {
+            current_path_node_index = 0;
+            path = graph.ShortestPath(current_node, Manager.LastSpotter.current_node).ToArray();
+
+            if (!path.Contains(currentTarget))
+            {
+                Movement.Target = current_node.Value.transform.position;
+                currentTarget = current_node;
+            }
+        }
 
         base.Update();
+    }
+
+    private void WanderUpdate()
+    {
+        try
+        {
+            if (Movement.HasArrived)
+            {
+                current_node = path[current_path_node_index];
+                Movement.Target = path[++current_path_node_index].Value.transform.position;
+                currentTarget = path[current_path_node_index];
+            }
+        }
+
+        catch
+        {
+            current_path_node_index = 0;
+            path = graph.ShortestPath(current_node, graph.RandomNode()).ToArray();
+
+            if (!path.Contains(currentTarget))
+            {
+                Movement.Target = current_node.Value.transform.position;
+                currentTarget = current_node;
+            }
+        }
+
+        base.Update();
+    }
+
+    private void FlankUpdate()
+    {
+        try
+        {
+            if (Movement.HasArrived)
+            {
+                current_node = path[current_path_node_index];
+                Movement.Target = path[++current_path_node_index].Value.transform.position;
+                currentTarget = path[current_path_node_index];
+            }
+        }
+
+        catch
+        {
+            current_path_node_index = 0;
+            path = graph.ShortestPath(current_node, Manager.ItPlayer.current_node.RandomNeighbor()).ToArray();
+
+            if (!path.Contains(currentTarget))
+            {
+                Movement.Target = current_node.Value.transform.position;
+                currentTarget = current_node;
+            }
+        }
+
+        base.Update();
+    }
+
+    private void TaggingUpdate()
+    {
+        Debug.Log("going for tag");
+    }
+
+    private void DebugDecision()
+    {
+        string motion = "";
+
+        switch(behaviour)
+        {
+            case BEHAVIOUR_TYPE.WANDER: motion = "Wandering"; break;
+            case BEHAVIOUR_TYPE.MOVE_TO_LAST_SPOTTER: motion = "Moving to Last Spotter"; break;
+            case BEHAVIOUR_TYPE.FLANK: motion = "Flanking"; break;
+            case BEHAVIOUR_TYPE.TAGGING: motion = "Tagging"; break;
+        }
+
+        Debug.Log(name + ": " + motion);
+    }
+
+    // Update is called once per frame
+    protected override void Update()
+    {
+        decisionTree.Evaluate();
+        DebugDecision();
+
+        switch(behaviour)
+        {
+            case BEHAVIOUR_TYPE.WANDER: WanderUpdate(); break;
+            case BEHAVIOUR_TYPE.MOVE_TO_LAST_SPOTTER: MoveToLastSpotterUpdate(); break;
+            case BEHAVIOUR_TYPE.FLANK: FlankUpdate(); break;
+            case BEHAVIOUR_TYPE.TAGGING: TaggingUpdate(); break;
+        }
     }
 }

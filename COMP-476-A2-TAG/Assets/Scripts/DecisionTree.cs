@@ -10,7 +10,7 @@ public abstract class DecisionTreeNode
     DecisionTreeNode leftChild;
     DecisionTreeNode rightChild;
 
-    public DecisionTreeNode Left
+    public DecisionTreeNode False
     {
         get { return leftChild; }
         set { leftChild = value;
@@ -18,7 +18,7 @@ public abstract class DecisionTreeNode
         }
     }
 
-    public DecisionTreeNode Right
+    public DecisionTreeNode True
     {
         get { return rightChild; }
         set { rightChild = value;
@@ -28,7 +28,7 @@ public abstract class DecisionTreeNode
 
     public bool IsLeaf
     {
-        get { return Left == null && Right == null; }
+        get { return False == null && True == null; }
     }
 
     public DecisionTreeNode()
@@ -105,9 +105,9 @@ public class DecisionTree
 
         //if evaluation of node is true go right (right for success, left for failure)
         if (n.Evaluate())
-            Evaluate(n.Right, ref res);
+            Evaluate(n.True, ref res);
 
         else
-            Evaluate(n.Left, ref res);
+            Evaluate(n.False, ref res);
     }
 }
