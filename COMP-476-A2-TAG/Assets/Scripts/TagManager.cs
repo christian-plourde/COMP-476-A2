@@ -14,10 +14,11 @@ public class TagManager : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         //lets fill a list with all of our characters
         characters = new List<Character>();
+
         foreach(Character c in FindObjectsOfType<Character>())
         {
             characters.Add(c);
@@ -27,8 +28,19 @@ public class TagManager : MonoBehaviour
         //then we should assign one of these to be the tag target at random
         int tag_index = Random.Range(0, characters.Count);
 
-        characters[tag_index].IsIt = true;
-        current_it_player = characters[tag_index];
+        for(int i = 0; i < characters.Count; i++)
+        {
+            if (i == tag_index)
+            {
+                characters[tag_index].IsIt = true;
+                current_it_player = characters[tag_index];
+            }
+
+            else
+                characters[i].IsIt = false;
+
+        }
+        
     }
 
     public Character ItPlayer

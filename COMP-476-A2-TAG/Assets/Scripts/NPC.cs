@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //basic npc class
-public class NPC : MonoBehaviour
+public abstract class NPC : MonoBehaviour
 {
-    float MAX_VELOCITY = 0.6f;
+    protected float MAX_VELOCITY = 0.6f;
     float currentVelocity = 0.0f;
     float MAX_ANGULAR_VELOCITY = 40.0f;
     float currentAngularVelocity = 0.0f;
@@ -14,10 +14,10 @@ public class NPC : MonoBehaviour
     Vector3 steering_velocity;
     AlignedMovement movement; //the current movement type for the character
 
-    public float MaxVelocity
+    public abstract float MaxVelocity
     {
-        get { return MAX_VELOCITY; }
-        set { MAX_VELOCITY = value; }
+        get; 
+        set; 
     }
 
     public float MaxAngularVelocity

@@ -24,6 +24,16 @@ public class Character : NPC
     private float tag_radius = 0.2f; //radius within which we can tag the it player
     public string name;
 
+    public override float MaxVelocity
+    {
+        get { if (IsIt)
+                return 2.0f * base.MAX_VELOCITY;
+            else
+                return base.MAX_VELOCITY;
+        }
+        set { base.MAX_VELOCITY = value; }
+    }
+
     public GraphNode<LevelNode>[] Path
     {
         get { return path; }
@@ -35,11 +45,15 @@ public class Character : NPC
         set { is_tag = value;
 
             if (IsIt)
-                this.gameObject.transform.localScale = new Vector3(10, 20, 10);
+            {
+                this.GetComponentInChildren<SkinnedMeshRenderer>().material = this.GetComponentInChildren<SkinnedMeshRenderer>().materials[1];
+            }
 
             else
-                this.gameObject.transform.localScale = new Vector3(10, 10, 10);
-        
+            {
+                this.GetComponentInChildren<SkinnedMeshRenderer>().material = this.GetComponentInChildren<SkinnedMeshRenderer>().materials[0];
+            }
+                
         }
     }
 
@@ -268,7 +282,7 @@ public class Character : NPC
     protected override void Update()
     {
         decisionTree.Evaluate();
-        DebugDecision();
+        //DebugDecision();
 
         switch(behaviour)
         {
