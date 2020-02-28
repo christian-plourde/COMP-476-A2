@@ -5,7 +5,7 @@ using Graph;
 using System.Linq;
 using UnityEngine.AI;
 
-public enum BEHAVIOUR_TYPE { WANDER, MOVE_TO_LAST_SPOTTER, FLANK, TAGGING, NULL }
+public enum BEHAVIOUR_TYPE { WANDER, MOVE_TO_LAST_SPOTTER, FLANK, TAGGING, EVADE, TURN_AROUND, NULL }
 
 //a class used for an npc character
 public class Character : NPC
@@ -19,6 +19,7 @@ public class Character : NPC
     private GraphNode<LevelNode> currentTarget;
     private bool is_tag = false;
     private DecisionTree decisionTree; //dictates the behaviour when the character is not the tag
+    private FiniteStateMachine finiteStateMachine; //dictates behaviour when character is not the tag
     private TagManager tag_manager;
     private float line_of_sight_y_offset = 0.3f;
     private BEHAVIOUR_TYPE behaviour;
@@ -27,11 +28,12 @@ public class Character : NPC
     public string name;
     public Material normal_material;
     public Material it_material;
+    public Character last_player_seen; //used for running away from a player when the character is it
 
     public override float MaxVelocity
     {
         get { if (IsIt)
-                return 2.0f * base.MAX_VELOCITY;
+                return 2.5f * base.MAX_VELOCITY;
             else
                 return base.MAX_VELOCITY;
         }
@@ -67,6 +69,7 @@ public class Character : NPC
         set { tag_manager = value; }
     }
 
+    #region Decision Tree Checks
     //this will return true if the it player is visible from this characters position and false otherwise.
     public bool ItPlayerVisible()
     {
@@ -101,6 +104,14 @@ public class Character : NPC
         return false;
     }
 
+    private bool ItPlayerStillVisible()
+    {
+        return Manager.LastSpotter.ItPlayerVisible();
+    }
+
+    #endregion
+
+    #region Decision Tree Actions
     private void SetWander()
     {
         behaviour = BEHAVIOUR_TYPE.WANDER;   
@@ -120,11 +131,69 @@ public class Character : NPC
     {
         behaviour = BEHAVIOUR_TYPE.TAGGING;
     }
-    
-    private bool ItPlayerStillVisible()
+
+    #endregion
+
+    #region Finite State Machine Transitions
+
+    private bool PlayerInLineOfSight()
     {
-        return Manager.LastSpotter.ItPlayerVisible();
+        //we need to check if any of the other players are visible from our point of view as the it player
+
+        Ray ray = new Ray(new Vector3(Position.x, Position.y + line_of_sight_y_offset, Position.z), this.transform.forward);
+        Debug.DrawRay(new Vector3(Position.x, Position.y + line_of_sight_y_offset, Position.z), this.transform.forward * 1.5f, Color.red);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            if (hit.transform.gameObject.GetComponent<Character>())
+            {
+                last_player_seen = hit.transform.gameObject.GetComponent<Character>();
+                return true;
+            }
+        }
+
+        return false;
     }
+
+    private bool AtDeadEnd()
+    {
+        if (current_node.Neighbors.Count == 1)
+            return true;
+
+        return false;
+    }
+
+    private bool NotAtDeadEnd()
+    {
+        return !AtDeadEnd();
+    }
+
+    private bool PlayerNotInLineOfSight()
+    {
+        return !PlayerInLineOfSight();
+    }
+
+    #endregion
+
+    #region Finite State Machine Actions
+
+    private void SetRunAway()
+    {
+        behaviour = BEHAVIOUR_TYPE.EVADE;
+    }
+
+    private void SetTurnAround()
+    {
+        behaviour = BEHAVIOUR_TYPE.TURN_AROUND;
+    }
+
+    private void SetStayPut()
+    {
+        behaviour = BEHAVIOUR_TYPE.NULL;
+    }
+
+    #endregion
 
     private void SetDecisionTree()
     {
@@ -164,6 +233,46 @@ public class Character : NPC
         decisionTree = new DecisionTree(it_player_visible);
     }
 
+    private void SetFiniteStateMachine()
+    {
+        FiniteStateMachineNode wander = new FiniteStateMachineNode("wander", SetWander);
+        FiniteStateMachineNode turnAround = new FiniteStateMachineNode("turn around", SetTurnAround);
+        FiniteStateMachineNode runAway = new FiniteStateMachineNode("run away", SetRunAway);
+        FiniteStateMachineNode stayPut = new FiniteStateMachineNode("stay put", SetStayPut);
+
+        wander.AddTransition("Player in line of sight", PlayerInLineOfSight, 2, runAway);
+        wander.AddTransition("At Dead End", AtDeadEnd, 1, turnAround);
+
+        runAway.AddTransition("Player not in line of sight", PlayerNotInLineOfSight, 1, wander);
+
+        turnAround.AddTransition("Not at dead end", NotAtDeadEnd, 1, wander);
+        turnAround.AddTransition("Player in line of sight", PlayerInLineOfSight, 2, stayPut);
+
+        finiteStateMachine = new FiniteStateMachine(wander);
+    }
+
+    //this will return the furthest neighbor (straight line distance) to the current node from the current node of the character passed as an argument. used for evading a chaser
+    public GraphNode<LevelNode> FurthestNeighborFromCharacter(Character chaser)
+    {
+        //for each of our neighbors, compute the shortest path to the current node of the chaser
+        //then check the cost so far of the last node in the path. if that cost is greater than the smallest cost so far for the neighbors update the node that we will return
+
+        GraphNode<LevelNode> furthestNeighbor = this.current_node.Neighbors[0];
+
+        double furthest_distance = 0;
+
+        foreach (GraphNode<LevelNode> n in this.current_node.Neighbors)
+        {
+            if ((n.Value.transform.position - chaser.currentTarget.Value.transform.position).magnitude > furthest_distance)
+            {
+                furthest_distance = (n.Value.transform.position - chaser.currentTarget.Value.transform.position).magnitude;
+                furthestNeighbor = n;
+            }
+        }
+
+        return furthestNeighbor;
+    }
+
     // Start is called before the first frame update
     protected override void Start()
     {
@@ -179,7 +288,11 @@ public class Character : NPC
 
         MaxVelocity = 100 * MaxVelocity;
         SetDecisionTree();
+
+        SetFiniteStateMachine();
     }
+
+    #region Behaviour Update Functions
 
     private void MoveToLastSpotterUpdate()
     {
@@ -290,9 +403,68 @@ public class Character : NPC
 
     private void TaggingUpdate()
     {
-        //Debug.Log("going for tag");
         Movement.Target = Manager.ItPlayer.current_node.Value.transform.position;
     }
+
+    private void RunAwayUpdate()
+    {
+        if (Manager.NavMesh)
+        {
+            this.gameObject.GetComponent<NavMeshAgent>().SetDestination(FurthestNeighborFromCharacter(last_player_seen).Value.transform.position);
+        }
+
+        else
+        {
+
+            current_path_node_index = 0;
+            path = graph.ShortestPath(current_node, FurthestNeighborFromCharacter(last_player_seen)).ToArray();
+
+            if (!path.Contains(currentTarget))
+            {
+                Movement.Target = current_node.Value.transform.position;
+                currentTarget = current_node;
+            }
+
+            base.Update();
+        }
+    }
+
+    private void TurnAroundUpdate()
+    {
+        if (Manager.NavMesh)
+        {
+            this.gameObject.GetComponent<NavMeshAgent>().SetDestination(current_node.Neighbors[0].Value.transform.position);
+        }
+
+        else
+        {
+            try
+            {
+                if (Movement.HasArrived)
+                {
+                    current_node = path[current_path_node_index];
+                    Movement.Target = path[++current_path_node_index].Value.transform.position;
+                    currentTarget = path[current_path_node_index];
+                }
+            }
+
+            catch
+            {
+                current_path_node_index = 0;
+                path = graph.ShortestPath(current_node, current_node.Neighbors[0]).ToArray();
+
+                if (!path.Contains(currentTarget))
+                {
+                    Movement.Target = current_node.Value.transform.position;
+                    currentTarget = current_node;
+                }
+            }
+
+            base.Update();
+        }
+    }
+
+    #endregion
 
     private void OnTriggerEnter(Collider other)
     {
@@ -320,7 +492,11 @@ public class Character : NPC
     // Update is called once per frame
     protected override void Update()
     {
-        decisionTree.Evaluate();
+        if (!IsIt)
+            decisionTree.Evaluate();
+
+        else
+            finiteStateMachine.Evaluate();
 
         if(Manager.NavMesh)
         {
@@ -336,6 +512,8 @@ public class Character : NPC
                     case BEHAVIOUR_TYPE.MOVE_TO_LAST_SPOTTER: MoveToLastSpotterUpdate(); break;
                     case BEHAVIOUR_TYPE.FLANK: FlankUpdate(); break;
                     case BEHAVIOUR_TYPE.TAGGING: TaggingUpdate(); break;
+                    case BEHAVIOUR_TYPE.EVADE: RunAwayUpdate(); break;
+                    case BEHAVIOUR_TYPE.TURN_AROUND: TurnAroundUpdate(); break;
                 }
             }
         }
@@ -348,6 +526,8 @@ public class Character : NPC
                 case BEHAVIOUR_TYPE.MOVE_TO_LAST_SPOTTER: MoveToLastSpotterUpdate(); break;
                 case BEHAVIOUR_TYPE.FLANK: FlankUpdate(); break;
                 case BEHAVIOUR_TYPE.TAGGING: TaggingUpdate(); break;
+                case BEHAVIOUR_TYPE.EVADE: RunAwayUpdate(); break;
+                case BEHAVIOUR_TYPE.TURN_AROUND: TurnAroundUpdate(); break;
             }
         }
     }

@@ -6084,6 +6084,7 @@ MonoBehaviour:
   name: Patrick
   normal_material: {fileID: 2100000, guid: 33a38c5732af600428e4e720f01f5331, type: 2}
   it_material: {fileID: 2100000, guid: 6689aa345001b364c82f6e393f35483e, type: 2}
+  last_player_seen: {fileID: 0}
 --- !u!195 &1209290180
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -6106,7 +6107,7 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!54 &1209290183
+--- !u!54 &1209290181
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -7509,6 +7510,7 @@ MonoBehaviour:
   name: Squidward
   normal_material: {fileID: 2100000, guid: da09b987f4ec6c949b037971e85edfe3, type: 2}
   it_material: {fileID: 2100000, guid: 6689aa345001b364c82f6e393f35483e, type: 2}
+  last_player_seen: {fileID: 0}
 --- !u!136 &1575819538
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -7545,7 +7547,7 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!54 &1575819542
+--- !u!54 &1575819540
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8332,7 +8334,8 @@ MonoBehaviour:
   name: Pirate
   normal_material: {fileID: 2100000, guid: 44f6a4d36c5622c4489c9d0be3539d7b, type: 2}
   it_material: {fileID: 2100000, guid: 6689aa345001b364c82f6e393f35483e, type: 2}
---- !u!54 &1726705029
+  last_player_seen: {fileID: 0}
+--- !u!54 &1726705027
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8471,6 +8474,7 @@ MonoBehaviour:
   name: Spongebob
   normal_material: {fileID: 2100000, guid: 47c4a6ccce8f25a4d955ee5acef7c70d, type: 2}
   it_material: {fileID: 2100000, guid: 6689aa345001b364c82f6e393f35483e, type: 2}
+  last_player_seen: {fileID: 0}
 --- !u!136 &1815468463
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -8507,7 +8511,7 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!54 &1815468467
+--- !u!54 &1815468465
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9635,6 +9639,7 @@ MonoBehaviour:
   name: Krabs
   normal_material: {fileID: 2100000, guid: ab4037dff0095fb449e93d2dbaaf9f30, type: 2}
   it_material: {fileID: 2100000, guid: 6689aa345001b364c82f6e393f35483e, type: 2}
+  last_player_seen: {fileID: 0}
 --- !u!195 &2016338675
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -9657,7 +9662,7 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!54 &2016338678
+--- !u!54 &2016338676
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

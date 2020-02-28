@@ -114,6 +114,8 @@ namespace Graph
             return Neighbors[idx];
         }
 
+        
+
         public void AddNeighbor(GraphNode<T> n, double cost)
         {
             this.edges.AddLast(new GraphEdge<T>(this, n, cost));
