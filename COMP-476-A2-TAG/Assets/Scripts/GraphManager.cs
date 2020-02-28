@@ -9,7 +9,6 @@ public class GraphManager : MonoBehaviour
 {
     private Graph<LevelNode> graph;
     public HEURISTIC_TYPE heuristic_type;
-    public Text heuristic_label;
     public int cluster_count;
 
     private void Awake()
@@ -41,8 +40,6 @@ public class GraphManager : MonoBehaviour
             graph.InitializeClusterTable();
         }
             
-
-        heuristic_label.text = heuristic_type.ToString();
     }
 
     // Start is called before the first frame update

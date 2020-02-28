@@ -31,7 +31,7 @@ public class TagManager : MonoBehaviour
 
     public void ResetGame()
     {
-        Debug.Log("resetting game");
+        //Debug.Log("resetting game");
         //lets fill a list with all of our characters
         characters = new List<Character>();
 
@@ -44,7 +44,7 @@ public class TagManager : MonoBehaviour
         //then we should assign one of these to be the tag target at random
 
         int tag_index = Random.Range(0, characters.Count);
-        Debug.Log(characters[tag_index].name + " is it.");
+        //Debug.Log(characters[tag_index].name + " is it.");
         
 
         for (int i = 0; i < characters.Count; i++)
