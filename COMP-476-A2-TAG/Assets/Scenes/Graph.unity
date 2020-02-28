@@ -2455,6 +2455,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 094631cf8b51e4a4da568c57be42b40c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  navMesh: 0
 --- !u!1 &379129921
 GameObject:
   m_ObjectHideFlags: 0
@@ -5788,7 +5789,7 @@ PrefabInstance:
     - target: {fileID: -7877236094725066325, guid: c43fce2b4f9ed484fa56b7f2c651d770,
         type: 3}
       propertyPath: m_Materials.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -7877236094725066325, guid: c43fce2b4f9ed484fa56b7f2c651d770,
         type: 3}
@@ -6262,7 +6263,7 @@ PrefabInstance:
     - target: {fileID: -7877236094725066325, guid: c43fce2b4f9ed484fa56b7f2c651d770,
         type: 3}
       propertyPath: m_Materials.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -7877236094725066325, guid: c43fce2b4f9ed484fa56b7f2c651d770,
         type: 3}
@@ -6530,7 +6531,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1209290177}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.02421553
   m_Height: 0.08340418
@@ -6551,6 +6552,47 @@ MonoBehaviour:
   startNode: {fileID: 93983738}
   cam: {fileID: 963194227}
   name: Patrick
+  normal_material: {fileID: 2100000, guid: 33a38c5732af600428e4e720f01f5331, type: 2}
+  it_material: {fileID: -7035436421568359269, guid: c43fce2b4f9ed484fa56b7f2c651d770,
+    type: 3}
+--- !u!195 &1209290180
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1209290177}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.02
+  m_Speed: 1
+  m_Acceleration: 5
+  avoidancePriority: 50
+  m_AngularSpeed: 700
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 0.08
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!54 &1209290183
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1209290177}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1266813061
 GameObject:
   m_ObjectHideFlags: 0
@@ -8238,7 +8280,7 @@ PrefabInstance:
     - target: {fileID: -7877236094725066325, guid: c43fce2b4f9ed484fa56b7f2c651d770,
         type: 3}
       propertyPath: m_Materials.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -7877236094725066325, guid: c43fce2b4f9ed484fa56b7f2c651d770,
         type: 3}
@@ -8349,6 +8391,9 @@ MonoBehaviour:
   startNode: {fileID: 68849382}
   cam: {fileID: 963194227}
   name: Squidward
+  normal_material: {fileID: 2100000, guid: da09b987f4ec6c949b037971e85edfe3, type: 2}
+  it_material: {fileID: -7035436421568359269, guid: c43fce2b4f9ed484fa56b7f2c651d770,
+    type: 3}
 --- !u!136 &1575819538
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -8357,12 +8402,50 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1575819536}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.02421553
   m_Height: 0.08340418
   m_Direction: 1
   m_Center: {x: -0.00021736622, y: 0.038329512, z: 0.009553564}
+--- !u!195 &1575819539
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575819536}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.02
+  m_Speed: 1
+  m_Acceleration: 5
+  avoidancePriority: 50
+  m_AngularSpeed: 700
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 0.08
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!54 &1575819542
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575819536}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1591724141
 GameObject:
   m_ObjectHideFlags: 0
@@ -8491,7 +8574,7 @@ PrefabInstance:
     - target: {fileID: -7877236094725066325, guid: c43fce2b4f9ed484fa56b7f2c651d770,
         type: 3}
       propertyPath: m_Materials.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -7877236094725066325, guid: c43fce2b4f9ed484fa56b7f2c651d770,
         type: 3}
@@ -9162,12 +9245,34 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1726705023}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.02421553
   m_Height: 0.08340418
   m_Direction: 1
   m_Center: {x: -0.00021736622, y: 0.038329512, z: 0.009553564}
+--- !u!195 &1726705025
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1726705023}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.02
+  m_Speed: 1
+  m_Acceleration: 5
+  avoidancePriority: 50
+  m_AngularSpeed: 700
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 0.08
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!114 &1726705026
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9183,6 +9288,25 @@ MonoBehaviour:
   startNode: {fileID: 1550761671}
   cam: {fileID: 963194227}
   name: Fred
+  normal_material: {fileID: 2100000, guid: 47c4a6ccce8f25a4d955ee5acef7c70d, type: 2}
+  it_material: {fileID: -7035436421568359269, guid: c43fce2b4f9ed484fa56b7f2c651d770,
+    type: 3}
+--- !u!54 &1726705029
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1726705023}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1001 &1747177062
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9193,7 +9317,7 @@ PrefabInstance:
     - target: {fileID: -7877236094725066325, guid: c43fce2b4f9ed484fa56b7f2c651d770,
         type: 3}
       propertyPath: m_Materials.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -7877236094725066325, guid: c43fce2b4f9ed484fa56b7f2c651d770,
         type: 3}
@@ -9304,6 +9428,9 @@ MonoBehaviour:
   startNode: {fileID: 312117340}
   cam: {fileID: 963194227}
   name: Spongebob
+  normal_material: {fileID: 2100000, guid: 47c4a6ccce8f25a4d955ee5acef7c70d, type: 2}
+  it_material: {fileID: -7035436421568359269, guid: c43fce2b4f9ed484fa56b7f2c651d770,
+    type: 3}
 --- !u!136 &1815468463
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -9312,12 +9439,50 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1815468461}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.02421553
   m_Height: 0.08340418
   m_Direction: 1
   m_Center: {x: -0.00021736622, y: 0.038329512, z: 0.009553564}
+--- !u!195 &1815468464
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1815468461}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.02
+  m_Speed: 1
+  m_Acceleration: 5
+  avoidancePriority: 50
+  m_AngularSpeed: 700
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 0.08
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!54 &1815468467
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1815468461}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1843913459
 GameObject:
   m_ObjectHideFlags: 0
@@ -10407,7 +10572,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2016338672}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.02421553
   m_Height: 0.08340418
@@ -10428,6 +10593,47 @@ MonoBehaviour:
   startNode: {fileID: 754812868}
   cam: {fileID: 963194227}
   name: Bill
+  normal_material: {fileID: 2100000, guid: 47c4a6ccce8f25a4d955ee5acef7c70d, type: 2}
+  it_material: {fileID: -7035436421568359269, guid: c43fce2b4f9ed484fa56b7f2c651d770,
+    type: 3}
+--- !u!195 &2016338675
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2016338672}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.02
+  m_Speed: 1
+  m_Acceleration: 5
+  avoidancePriority: 50
+  m_AngularSpeed: 700
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 0.08
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!54 &2016338678
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2016338672}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &2032828916
 GameObject:
   m_ObjectHideFlags: 0

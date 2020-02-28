@@ -388,9 +388,9 @@ public class SteeringSeek : ReachMovement
 
 public class SteeringArrive : ReachMovement
 {
-    private float slowdown_radius = 0.1f;
-    private float arrival_radius = 0.05f;
-    private float t2t = 5.0f; 
+    private float slowdown_radius = 0.2f;
+    private float arrival_radius = 0.15f;
+    private float t2t = 2.0f; 
 
     public SteeringArrive(NPC npc) : base(npc) { }
 

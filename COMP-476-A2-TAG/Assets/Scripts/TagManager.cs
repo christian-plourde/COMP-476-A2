@@ -1,46 +1,75 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class TagManager : MonoBehaviour
 {
     List<Character> characters;
     Character current_it_player;
     Character last_char_to_spot_it_player; //the last person to spot the it player
+    public bool navMesh = false;
+
+    public bool NavMesh
+    {
+        get { return navMesh; }
+        set {
+
+            navMesh = value;
+            foreach(Character c in characters)
+            {
+                c.gameObject.GetComponent<NavMeshAgent>().enabled = navMesh;
+            }
+
+        }
+    }
 
     public Character LastSpotter
     {
         get { return last_char_to_spot_it_player; }
     }
 
-    // Start is called before the first frame update
-    void Awake()
+    public void ResetGame()
     {
+        Debug.Log("resetting game");
         //lets fill a list with all of our characters
         characters = new List<Character>();
 
-        foreach(Character c in FindObjectsOfType<Character>())
+        foreach (Character c in FindObjectsOfType<Character>())
         {
             characters.Add(c);
             c.Manager = this;
         }
 
         //then we should assign one of these to be the tag target at random
-        int tag_index = Random.Range(0, characters.Count);
 
-        for(int i = 0; i < characters.Count; i++)
+        int tag_index = Random.Range(0, characters.Count);
+        Debug.Log(characters[tag_index].name + " is it.");
+        
+
+        for (int i = 0; i < characters.Count; i++)
         {
             if (i == tag_index)
             {
                 characters[tag_index].IsIt = true;
                 current_it_player = characters[tag_index];
+                current_it_player.gameObject.GetComponent<CapsuleCollider>().tag = "ItPlayer";
             }
 
             else
+            {
                 characters[i].IsIt = false;
-
+                characters[i].gameObject.GetComponent<CapsuleCollider>().tag = "Untagged";
+            }
         }
-        
+
+        NavMesh = navMesh;
+    }
+
+    // Start is called before the first frame update
+    void Awake()
+    {
+        ResetGame();
     }
 
     public Character ItPlayer
