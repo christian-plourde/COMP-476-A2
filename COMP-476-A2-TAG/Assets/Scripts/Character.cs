@@ -248,6 +248,8 @@ public class Character : NPC
         turnAround.AddTransition("Not at dead end", NotAtDeadEnd, 1, wander);
         turnAround.AddTransition("Player in line of sight", PlayerInLineOfSight, 2, stayPut);
 
+        stayPut.AddTransition("Player not in line of sight", PlayerNotInLineOfSight, 1, wander);
+
         finiteStateMachine = new FiniteStateMachine(wander);
     }
 
@@ -299,6 +301,7 @@ public class Character : NPC
         if (Manager.NavMesh)
         {
             this.gameObject.GetComponent<NavMeshAgent>().SetDestination(Manager.LastSpotter.current_node.Value.transform.position);
+            currentTarget = Manager.LastSpotter.current_node;
         }
 
         else
@@ -333,7 +336,10 @@ public class Character : NPC
     {
         if(Manager.NavMesh)
         {
-            this.gameObject.GetComponent<NavMeshAgent>().SetDestination(graph.RandomNode().Value.transform.position);
+            GraphNode<LevelNode> rand = graph.RandomNode();
+            this.gameObject.GetComponent<NavMeshAgent>().SetDestination(rand.Value.transform.position);
+            currentTarget = rand;
+            
         }
 
         else
@@ -370,6 +376,7 @@ public class Character : NPC
         if (Manager.NavMesh)
         {
             this.gameObject.GetComponent<NavMeshAgent>().SetDestination(Manager.ItPlayer.current_node.RandomNeighbor().Value.transform.position);
+            currentTarget = Manager.ItPlayer.current_node;
         }
 
         else
@@ -404,6 +411,7 @@ public class Character : NPC
     private void TaggingUpdate()
     {
         Movement.Target = Manager.ItPlayer.current_node.Value.transform.position;
+        currentTarget = Manager.ItPlayer.current_node;
     }
 
     private void RunAwayUpdate()
@@ -411,19 +419,38 @@ public class Character : NPC
         if (Manager.NavMesh)
         {
             this.gameObject.GetComponent<NavMeshAgent>().SetDestination(FurthestNeighborFromCharacter(last_player_seen).Value.transform.position);
+            currentTarget = FurthestNeighborFromCharacter(last_player_seen);
         }
 
         else
         {
-
-            current_path_node_index = 0;
-            path = graph.ShortestPath(current_node, FurthestNeighborFromCharacter(last_player_seen)).ToArray();
-
-            if (!path.Contains(currentTarget))
+            /*
+            try
             {
-                Movement.Target = current_node.Value.transform.position;
-                currentTarget = current_node;
+                if (Movement.HasArrived)
+                {
+                    current_node = path[current_path_node_index];
+                    Movement.Target = path[++current_path_node_index].Value.transform.position;
+                    currentTarget = path[current_path_node_index];
+                }
             }
+            */
+
+            /*
+            catch
+            {
+            */
+                current_path_node_index = 0;
+                path = graph.ShortestPath(current_node, FurthestNeighborFromCharacter(last_player_seen)).ToArray();
+
+                if (!path.Contains(currentTarget))
+                {
+                    Movement.Target = current_node.Value.transform.position;
+                    currentTarget = current_node;
+                }
+            /*
+            }
+            */
 
             base.Update();
         }
@@ -434,6 +461,7 @@ public class Character : NPC
         if (Manager.NavMesh)
         {
             this.gameObject.GetComponent<NavMeshAgent>().SetDestination(current_node.Neighbors[0].Value.transform.position);
+            currentTarget = current_node.Neighbors[0];
         }
 
         else

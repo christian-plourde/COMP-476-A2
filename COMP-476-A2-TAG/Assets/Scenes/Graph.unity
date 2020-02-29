@@ -1280,6 +1280,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: pineapple
       objectReference: {fileID: 0}
+    - target: {fileID: 4142758968668263726, guid: 99cc91903ac4fb0488d0232062586662,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.02204
+      objectReference: {fileID: 0}
+    - target: {fileID: 4142758968668263726, guid: 99cc91903ac4fb0488d0232062586662,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.00014
+      objectReference: {fileID: 0}
+    - target: {fileID: 4142758968668263726, guid: 99cc91903ac4fb0488d0232062586662,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.00083
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 99cc91903ac4fb0488d0232062586662, type: 3}
 --- !u!1 &150549756
